@@ -123,7 +123,6 @@ void bst_destroy(bst_node **node)
 {
 	if (node == NULL || *node == NULL) return;
 	while (*node) {
-		printf("%p -> %p/%p\n", *node, (*node)->left, (*node)->right);
 		bst_delete(node);
 	}
 }
