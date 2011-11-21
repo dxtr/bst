@@ -104,10 +104,7 @@ void bst_delete(bst_node **node)
 		bst_node *tmp_node = NULL;
 
 		while ((*pred)->right != NULL) pred = &((*pred)->right);
-		if ((*pred)->left != NULL) { 
-			printf("Left isn't NULL, there will be stray nodes..\n");
-			tmp_node = (*pred)->left;
-		}
+		if ((*pred)->left != NULL) { tmp_node = (*pred)->left; }
 
 		list_node *temp = (*pred)->list;
 		(*pred)->list = (*node)->list;
@@ -116,10 +113,7 @@ void bst_delete(bst_node **node)
 		bst_free_node(*pred);
 		*pred = NULL;
 
-		if (tmp_node != NULL) {
-			printf("Re-inserting stray nodes...\n");
-			bst_insert_node(node, tmp_node);
-		}
+		if (tmp_node != NULL) { bst_insert_node(node, tmp_node); }
 	}
 }
 
