@@ -31,11 +31,11 @@ bst_node *bst_new_node(uint64_t key, void *data)
  * If NULL is passed instead of the comparison function it will blindly insert
  * the data (Not taking duplicates into consideration, etc)
  */
-bst_node* bst_insert(bst_node** root, uint64_t key, int (*compare)(list_node*,void*), void *data)
+bst_node* bst_insert(bst_node* root, uint64_t key, int (*compare)(list_node*,void*), void *data)
 {
 	if (root == NULL || data == NULL) return NULL; // We return NULL because we won't insert any data anyway
 
-	bst_node** node = bst_search(root, key);
+	bst_node** node = bst_search(&root, key);
 	if (*node == NULL) {
 		*node = bst_new_node(key, data);
 	} else if (list_find((*node)->list, compare, data) == NULL) {
@@ -48,11 +48,11 @@ bst_node* bst_insert(bst_node** root, uint64_t key, int (*compare)(list_node*,vo
 /* Inserts an already created node in a tree
  * Arguments: The tree to insert to and the node to insert
  */
-bst_node *bst_insert_node(bst_node** root, bst_node* node)
+bst_node *bst_insert_node(bst_node* root, bst_node* node)
 {
-	if (root == NULL || *root == NULL || node == NULL) return NULL;
+	if (root == NULL || node == NULL) return NULL;
 
-	bst_node** s_node = bst_search(root, node->key);
+	bst_node** s_node = bst_search(&root, node->key);
 	if (*s_node == NULL) {
 		*s_node = node;
 		return *s_node;
@@ -103,7 +103,7 @@ void bst_delete(bst_node **node)
 		bst_node *tmp_node = NULL;
 
 		while ((*pred)->right != NULL) pred = &((*pred)->right);
-		if ((*pred)->left != NULL) { tmp_node = (*pred)->left; }
+		tmp_node = (*pred)->left;
 
 		list_node *temp = (*pred)->list;
 		(*pred)->list = (*node)->list;
@@ -112,7 +112,7 @@ void bst_delete(bst_node **node)
 		bst_free_node(*pred);
 		*pred = NULL;
 
-		if (tmp_node != NULL) { bst_insert_node(node, tmp_node); }
+		if (tmp_node != NULL) { bst_insert_node(*node, tmp_node); }
 	}
 }
 
@@ -123,6 +123,7 @@ void bst_destroy(bst_node **node)
 {
 	if (node == NULL || *node == NULL) return;
 	while (*node) {
+		printf("%p -> %p/%p\n", *node, (*node)->left, (*node)->right);
 		bst_delete(node);
 	}
 }

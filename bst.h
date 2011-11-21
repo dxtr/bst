@@ -12,8 +12,8 @@ typedef struct bst_node {
 } bst_node;
 
 bst_node* bst_new_node(uint64_t key, void *data);
-bst_node* bst_insert(bst_node **root, uint64_t key, int (*compare)(list_node*,void*), void *data);
-bst_node* bst_insert_node(bst_node **root, bst_node *node);
+bst_node* bst_insert(bst_node *root, uint64_t key, int (*compare)(list_node*,void*), void *data);
+bst_node* bst_insert_node(bst_node *root, bst_node *node);
 bst_node** bst_search(bst_node **root, uint64_t key);
 void bst_delete(bst_node **node);
 void bst_destroy(bst_node **node);
