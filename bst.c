@@ -87,7 +87,6 @@ void bst_delete(bst_node **node)
 {
 	if (node == NULL || *node == NULL) return;
 	bst_node *old_node = *node;
-	printf("node: %p, left: %p, right: %p\n", *node, (*node)->left, (*node)->right);
 	if ((*node)->left == NULL && (*node)->right != NULL) {
 		*node = (*node)->right;
 		bst_free_node(old_node);
